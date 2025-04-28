@@ -1,15 +1,17 @@
 
+import { BrowserRouter } from 'react-router-dom';
 import './App.css'
 import Box from '@mui/material/Box';
+import Login from './pages/Login';
 
 
 function App() {
 
 
   return (
-    <Box sx={{ backgroundColor: 'green', height: '100px' }}>
-
-    </Box>
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>
   )
 }
 
