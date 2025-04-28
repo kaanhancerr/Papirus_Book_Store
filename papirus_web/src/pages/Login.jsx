@@ -1,17 +1,64 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Box, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Typography, Link, Button } from "@mui/material";
+import React, { useState } from "react";
 import Book from '../assets/book.png'
-
+import Books from '../assets/books.webp'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Link as RouterLink } from 'react-router-dom' //react-router-dom kütüphanesinden Link alıyoruz. Ona isim veriyoruz (as RouterLink) ki MUI Link ile karışmasın diye.
 const Login = () => {
-    return (
-        <Box display={"flex"} height='100vh' width='1' >
-            <Box sx={{ backgroundColor: 'green', flex: 1 }}>
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => {
+        setShowPassword((show) => !show)
+    }
+
+    return (
+        <Box display={"flex"} height='100vh' width='100%' >
+            {/* Ekranin sol tarafi */}
+            <Box sx={{ width: '50%' }}>
+                <img src={Books} width='100%' height='100%' />
             </Box>
-            <Box display={"flex"} flexDirection={"column"} alignItems={"center"} sx={{ flex: 1 }}>
-                <Box   >
-                    <img src={Book} alt="" style={{ height: 250, width: 250 }} />
-                </Box>
+            {/* Ekranin sag tarafi */}
+            <Box display={"flex"} flexDirection={"column"} alignItems={"center"} sx={{ width: '50%' }}>
+
+                <img src={Book} alt="" style={{ marginTop: 140, height: 280, width: 280 }} />
+
+
+                <FormControl sx={{ mt: 10, width: '34ch' }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
+                    <OutlinedInput
+                        id="login-email"
+                        type='text'
+                    >
+
+                    </OutlinedInput>
+                </FormControl>
+                <FormControl sx={{ mt: 5, width: '34ch' }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                        id="login-password"
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label={showPassword ? 'şifreyi gizle' : 'şifreyi sakla'}
+                                    onClick={handleClickShowPassword}
+                                >
+                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    >
+
+                    </OutlinedInput>
+                </FormControl>
+                <Typography fontSize='15px' mt='40px' variant="subtitle1">Hesabınız yok mu?
+                    <Link component={RouterLink} underline='none' to='/register' sx={{ cursor: 'pointer' }}> Üye Ol !</Link>
+                </Typography>
+
+                <Button onClick={{}} variant="contained" sx={{ backgroundColor: ' #f3e3cc', color: 'black', marginTop: 5, borderRadius: 10, width: '20ch' }}>GİRİŞ YAP</Button>
+
 
             </Box>
         </Box>
