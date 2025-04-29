@@ -1,22 +1,30 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
 import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Topbar from './components/Topbar';
+import BookItem from './pages/Home/components/BookItem';
+
 
 
 function App() {
 
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login/>}/>
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <Sidebar />
+      <Topbar />
+      <BookItem />
+
+    </div>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path='/' element={<Login />} />
+    //     <Route path='/register' element={<Register />} />
+    //     <Route path='/login' element={<Login/>}/>
+    //   </Routes>
+    // </BrowserRouter>
   )
 }
 
