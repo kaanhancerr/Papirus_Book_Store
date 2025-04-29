@@ -14,7 +14,7 @@ const Login = () => {
     }
 
     return (
-        <Box display={"flex"} height='100vh' width='100%' >
+        <Box display={"flex"} height='100vh' width='100vw' >
             {/* Ekranin sol tarafi */}
             <Box sx={{ width: '50%' }}>
                 <img src={Books} width='100%' height='100%' />
@@ -26,7 +26,7 @@ const Login = () => {
 
 
                 <FormControl sx={{ mt: 10, width: '34ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
+                    <InputLabel htmlFor="login-email">Email</InputLabel>
                     <OutlinedInput
                         id="login-email"
                         type='text'
@@ -35,7 +35,7 @@ const Login = () => {
                     </OutlinedInput>
                 </FormControl>
                 <FormControl sx={{ mt: 5, width: '34ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <InputLabel htmlFor="login-password">Password</InputLabel>
                     <OutlinedInput
                         id="login-password"
                         type={showPassword ? 'text' : 'password'}

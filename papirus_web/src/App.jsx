@@ -1,8 +1,9 @@
 
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Box from '@mui/material/Box';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 
 function App() {
@@ -10,7 +11,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Login />
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login/>}/>
+      </Routes>
     </BrowserRouter>
   )
 }
