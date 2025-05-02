@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, OutlinedInput, Typography, Link, Button } from "@mui/material";
 import React from "react";
-import Book from '../assets/books-register.jpg'
-import Papirus from '../assets/book.png'
+import Book from '../../assets/books-register.jpg'
+import Papirus from '../../assets/book.png'
 import { Link as RouterLink } from "react-router-dom";
 
 const Register = () => {
