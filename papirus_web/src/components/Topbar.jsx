@@ -6,10 +6,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 
 
-const Topbar = () => {
-    const [showSearch, useShowSearch] = useState(true);
+const Topbar = ({ showSearch = false }) => {
     return (
-        <Box display={"flex"} height={100} ml='300px' sx={{ backgroundColor: 'white' }} justifyContent='space-between' alignItems={"center"}>
+        <Box display={"flex"} height={100} ml='300px' sx={{ backgroundColor: 'white' }} alignItems={"center"}>
             {showSearch && (
                 <TextField
                     variant="outlined"
@@ -40,14 +39,14 @@ const Topbar = () => {
 
                 </TextField>
             )}
-            <Box display={"flex"} mr={5} gap='10px'>
-                <IconButton sx={{}}>
+            <Box display={"flex"} mr={5} gap='10px' ml='auto'>
+                <IconButton sx={{ color: 'black' }}>
                     <AccountCircleIcon fontSize="large" />
                 </IconButton>
-                <IconButton>
+                <IconButton sx={{ color: 'black' }}>
                     <ShoppingCartIcon fontSize="large" />
                 </IconButton>
-                <IconButton>
+                <IconButton sx={{ color: 'black' }}>
                     <LogoutIcon fontSize="large" />
                 </IconButton>
             </Box>
