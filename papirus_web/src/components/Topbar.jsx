@@ -4,9 +4,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from "react-router-dom";
 
 
 const Topbar = ({ showSearch = false }) => {
+
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
+
     return (
         <Box display={"flex"} height={100} ml='300px' sx={{ backgroundColor: 'white' }} alignItems={"center"}>
             {showSearch && (
@@ -46,7 +55,7 @@ const Topbar = ({ showSearch = false }) => {
                 <IconButton sx={{ color: 'black' }}>
                     <ShoppingCartIcon fontSize="large" />
                 </IconButton>
-                <IconButton sx={{ color: 'black' }}>
+                <IconButton onClick={() => handleLogOut()} sx={{ color: 'black' }}>
                     <LogoutIcon fontSize="large" />
                 </IconButton>
             </Box>
