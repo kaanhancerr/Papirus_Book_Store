@@ -15,9 +15,15 @@ const Topbar = ({ showSearch = false }) => {
         localStorage.removeItem('token');
         navigate('/login');
     }
+    const handleNavigateProfile = () => {
+        navigate('/profile');
+    }
+    const handleNavigateCard = () => {
+        navigate('/card');
+    }
 
     return (
-        <Box display={"flex"} height={100} ml='300px' sx={{ backgroundColor: 'white' }} alignItems={"center"}>
+        <Box display={"flex"} height='100px' ml='300px' sx={{ backgroundColor: 'white' }} alignItems={"center"}>
             {showSearch && (
                 <TextField
                     variant="outlined"
@@ -49,10 +55,10 @@ const Topbar = ({ showSearch = false }) => {
                 </TextField>
             )}
             <Box display={"flex"} mr={5} gap='10px' ml='auto'>
-                <IconButton sx={{ color: 'black' }}>
+                <IconButton onClick={handleNavigateProfile} sx={{ color: 'black' }}>
                     <AccountCircleIcon fontSize="large" />
                 </IconButton>
-                <IconButton sx={{ color: 'black' }}>
+                <IconButton onClick={handleNavigateCard} sx={{ color: 'black' }}>
                     <ShoppingCartIcon fontSize="large" />
                 </IconButton>
                 <IconButton onClick={() => handleLogOut()} sx={{ color: 'black' }}>
