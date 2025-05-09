@@ -6,16 +6,21 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { Navigate, useNavigate } from 'react-router-dom'
 
-const menuItems = [
-    { icon: <ShoppingCartIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Sepetim" },
-    { icon: <MenuBookIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Okuma Listem" },
-    { icon: <FavoriteIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Favorilerim" },
-    { icon: <EditDocumentIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Yazarlar" },
-    { icon: <AccountBalanceWalletIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Cüzdan:" },
-]
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+    const menuItems = [
+
+        { icon: <ShoppingCartIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Sepetim", onClick: () => navigate('/card') },
+        { icon: <MenuBookIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Okuma Listem", onClick: () => navigate('/home') },
+        { icon: <FavoriteIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Favorilerim" },
+        { icon: <EditDocumentIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Yazarlar" },
+        { icon: <AccountBalanceWalletIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Cüzdan:" },
+    ]
+
+
     return (
         <Box display={"flex"} flexDirection={"column"} height='100vh' width='300px' position={"fixed"} top={0} left={0} sx={{ backgroundColor: '  #eadec6' }}>
 
@@ -27,7 +32,7 @@ const Sidebar = () => {
                 <List sx={{ width: '50%' }}>
                     {menuItems.map((item, index) => (
                         <ListItem disablePadding key={index} sx={{ mb: "10px" }}>
-                            <ListItemButton sx={{ padding: 0 }}>
+                            <ListItemButton sx={{ padding: 0 }} onClick={item.onClick}>
                                 {item.icon}
                                 <ListItemText
                                     sx={{
