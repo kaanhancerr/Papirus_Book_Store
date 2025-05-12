@@ -25,7 +25,7 @@ const Login = () => {
         try {
             const action = await dispatch(loginUser({ email, password }))
             if (action.type === 'auth/loginUser/fulfilled') {
-                navigate('/card')
+                navigate('/home')
             }
         }
         catch (error) {

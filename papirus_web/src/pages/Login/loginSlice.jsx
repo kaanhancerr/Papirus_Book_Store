@@ -2,9 +2,11 @@ import LoginUserService from "./LoginService";
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 
-export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { rejectWithValue, dispatch }) => {
     try {
         const data = await LoginUserService(credentials);
+        console.log(data)
+        dispatch(setUser(data));
         return data;
     }
     catch (error) {
@@ -23,7 +25,12 @@ const loginSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.error = null;
-
+        },
+        setUser: (state, { payload }) => {
+            console.log({ payload })
+            state.user = {
+                person: payload.user.person
+            };
         }
     },
     extraReducers: (builder) => {
@@ -33,8 +40,11 @@ const loginSlice = createSlice({
 
         })
         builder.addCase(loginUser.fulfilled, (state, action) => {
+            console.log({ action })
             state.loading = false;
-            state.user = action.payload;
+            localStorage.setItem('userId', action.payload.user._id);
+            // state.user = action.payload;
+            // console.log('Kullanıcı verisi:', action.payload);
         })
         builder.addCase(loginUser.rejected, (state, action) => {
             state.loading = false;
@@ -44,5 +54,5 @@ const loginSlice = createSlice({
 
 })
 
-export const { logout } = loginSlice.actions;
+export const { logout, setUser } = loginSlice.actions;
 export default loginSlice.reducer;
