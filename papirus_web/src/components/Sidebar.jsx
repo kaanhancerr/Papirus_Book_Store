@@ -7,17 +7,28 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { Navigate, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const Sidebar = () => {
+
+    const dispatch = useDispatch();
+    const userBalance = useSelector((store) => store.card.balance)
+
     const navigate = useNavigate();
     const menuItems = [
 
         { icon: <ShoppingCartIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Sepetim", onClick: () => navigate('/card') },
-        { icon: <MenuBookIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Okuma Listem", onClick: () => navigate('/home') },
+        { icon: <MenuBookIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Mağaza", onClick: () => navigate('/home') },
         { icon: <FavoriteIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Favorilerim" },
         { icon: <EditDocumentIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Yazarlar" },
-        { icon: <AccountBalanceWalletIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: "Cüzdan:" },
+        {
+            icon: <AccountBalanceWalletIcon sx={{ width: 25, height: 25, color: 'black', }} />, label: (
+                <Box display="flex" alignItems="center">
+                    Cüzdan: <span style={{ marginLeft: 7 }}>{typeof userBalance === 'number' ? `${userBalance.toFixed(2)}₺` : '0.00₺'}</span>
+                </Box>
+            )
+        },
     ]
 
 
