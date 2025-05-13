@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { addItemToCart, getBooksInCart, removeBookFromCart } from './cardService'
+import { addItemToCart, buyBooks, getBooksInCart, getUserBalance, removeBookFromCart } from './cardService'
 
 // sepete urun ekleme thunk i 
 export const addToCard = createAsyncThunk('card/addToCard', async (payload) => {
@@ -19,14 +19,29 @@ export const removeFromCart = createAsyncThunk('card/removeFromCart', async (pay
     return data;
 })
 
+// bakiye getirme
+export const fetchUserBalance = createAsyncThunk('card/fetchUserBalance', async (userId) => {
+    const data = await getUserBalance(userId);
+    return data;
+})
+
+//satin alma ve bakiye guncelleme
+export const fetchBuyBooks = createAsyncThunk('card/fetchBuyBooks', async (payload) => {
+    const data = await buyBooks(payload);
+    return data;
+})
+
 const cardSlice = createSlice({
     name: 'card',
     initialState: {
         items: [],
+        balance: 0,
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+
+    },
     extraReducers: (builder) => {
         // sepete urun ekleme
         builder.addCase(addToCard.pending, (state) => {
@@ -73,6 +88,36 @@ const cardSlice = createSlice({
         builder.addCase(removeFromCart.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message || 'bir hata olustu'
+        })
+
+        //bakiye getirme
+        builder.addCase(fetchUserBalance.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        })
+        builder.addCase(fetchUserBalance.fulfilled, (state, action) => {
+            state.loading = false;
+            state.balance = action.payload;
+        })
+        builder.addCase(fetchUserBalance.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || ' bir hata olustu';
+        })
+
+        //satin alma ve bakiye guncelleme
+        builder.addCase(fetchBuyBooks.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        })
+        builder.addCase(fetchBuyBooks.fulfilled, (state, action) => {
+            console.log('bakiye daatasi', action.payload)
+            state.loading = false;
+            state.balance = action.payload.data;
+            state.items = [];
+        })
+        builder.addCase(fetchBuyBooks.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message || 'satin alma islemi basarisiz.'
         })
     }
 })

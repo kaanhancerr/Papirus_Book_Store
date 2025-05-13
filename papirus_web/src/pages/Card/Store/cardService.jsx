@@ -14,7 +14,20 @@ export const getBooksInCart = async (_id) => {
     return response.data;
 }
 
+// sepetten urun silme
 export const removeBookFromCart = async (payload) => {
     const response = await axios.post('/removeBookFromCart', (payload))
+    return response.data;
+}
+
+// kullanicinin bakiyesini getirir.
+export const getUserBalance = async (_id) => {
+    const response = await axios.post('/getUserBalance', { _id })
+    return response.data;
+}
+
+// satin alma ve bakiye guncelleme
+export const buyBooks = async (payload) => {
+    const response = await axios.post('/buyBooks', (payload));
     return response.data;
 }
