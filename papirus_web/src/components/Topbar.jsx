@@ -1,13 +1,17 @@
-import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Badge, Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 const Topbar = ({ showSearch = false }) => {
+
+    const cartCount = useSelector((store) => store.card.items.length); // sepetteki urun sayisini gostermek icin.
+    console.log('urun sayisi', cartCount)
 
     const navigate = useNavigate();
 
@@ -59,7 +63,9 @@ const Topbar = ({ showSearch = false }) => {
                     <AccountCircleIcon fontSize="large" />
                 </IconButton>
                 <IconButton onClick={handleNavigateCard} sx={{ color: 'black' }}>
-                    <ShoppingCartIcon fontSize="large" />
+                    <Badge badgeContent={cartCount} color="error">
+                        <ShoppingCartIcon fontSize="large" />
+                    </Badge>
                 </IconButton>
                 <IconButton onClick={() => handleLogOut()} sx={{ color: 'black' }}>
                     <LogoutIcon fontSize="large" />
