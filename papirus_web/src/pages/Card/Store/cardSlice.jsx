@@ -37,10 +37,13 @@ const cardSlice = createSlice({
         items: [],
         balance: 0,
         loading: false,
+        fullfilled: null,
         error: null,
     },
     reducers: {
-
+        setFullfilled: (state, action) => {
+            state.fullfilled = action.payload;
+        }
     },
     extraReducers: (builder) => {
         // sepete urun ekleme
@@ -50,7 +53,7 @@ const cardSlice = createSlice({
         })
         builder.addCase(addToCard.fulfilled, (state, action) => {
             state.loading = false;
-            state.items.push(action.payload); //apidan gelen kitap bilgisi
+            state.fullfilled = true;
         })
         builder.addCase(addToCard.rejected, (state, action) => {
             state.loading = false;
@@ -122,5 +125,5 @@ const cardSlice = createSlice({
     }
 })
 
-export const { } = cardSlice.actions
+export const CardActions = cardSlice.actions
 export default cardSlice.reducer

@@ -7,7 +7,7 @@ import {
     flexRender,
 } from '@tanstack/react-table';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCartItems, removeFromCart } from "./Store/cardSlice";
+import { fetchCartItems, removeFromCart, fetchUserBalance, fetchBuyBooks } from "./Store/cardSlice";
 
 
 
@@ -38,6 +38,7 @@ const CardPage = () => {
                 const bookId = info.row.original._id
                 return (
 
+
                     <Button variant='contained' color="error"
                         onClick={() =>
                             handleRemoveFromCart(bookId)
@@ -55,10 +56,15 @@ const CardPage = () => {
     useEffect(() => {
         const userId = localStorage.getItem('userId');
         dispatch(fetchCartItems(userId));
+        dispatch(fetchUserBalance(userId))
     }, [dispatch])
 
-    const cardData = useSelector((store) => store.card.items)
+    const cardData = useSelector((store) => store.card.items) // sepetteki urunler.
     console.log('cardData', cardData)
+
+    const balance = useSelector((store) => store.card.balance);
+    console.log('balance', balance)
+
 
     const handleRemoveFromCart = (bookId) => {
         const userId = localStorage.getItem('userId')
@@ -73,6 +79,31 @@ const CardPage = () => {
         console.log('books', bookId)
         console.log('_id', userId)
     }
+
+    const handleBuyBooks = () => {
+        const userId = localStorage.getItem('userId')
+        const totalPrice = calculateTotalPrice(cardData)
+        const payload = {
+            _id: userId,
+            totalPrice: totalPrice,
+        }
+        dispatch(fetchBuyBooks(payload)) // satin alma islemi bittikten sonra bakiyeyi guncelliyorum.
+            .then(() => {
+                dispatch(fetchUserBalance(userId))
+            })
+    }
+
+    const calculateTotalPrice = (items) => {
+        console.log({ items })
+        if (!Array.isArray(items)) return 0;
+        return items.reduce((total, item) => total + item.price, 0);
+    }
+
+    // const calculateTotalPrice = (cardData) => {
+    //     return cardData.reduce((total, item) => total + item.price, 0);
+    // }
+
+    console.log('toplam fiyat', calculateTotalPrice(cardData));
 
     const table = useReactTable({
         data: cardData,
@@ -112,7 +143,7 @@ const CardPage = () => {
                 <Box width="17%" p={2} component={Paper} height='200px'>
                     <Typography variant="h6">Sipariş Özeti</Typography>
                     <Typography variant="body2" sx={{ mt: 1 }}>
-                        1 ürün
+                        {cardData.length} ürün
                     </Typography>
                     <Divider sx={{ my: 1 }} />
                     <Box
@@ -123,10 +154,10 @@ const CardPage = () => {
                     >
                         <Typography>Ödenecek Tutar</Typography>
                         <Typography fontWeight="bold" color="error">
-                            45.17TL
+                            {calculateTotalPrice(cardData).toFixed(2)}₺
                         </Typography>
                     </Box>
-                    <Button variant="contained" color="error" fullWidth sx={{ mt: 3, height: 60 }}>
+                    <Button onClick={handleBuyBooks} variant="contained" color="error" fullWidth sx={{ mt: 3, height: 60 }}>
                         SATIN AL
                     </Button>
                 </Box>
