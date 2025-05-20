@@ -6,13 +6,12 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { Navigate, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 
 const Sidebar = () => {
 
-    const dispatch = useDispatch();
     const userBalance = useSelector((store) => store.card.balance)
 
     const navigate = useNavigate();
@@ -30,8 +29,6 @@ const Sidebar = () => {
             )
         },
     ]
-
-
     return (
         <Box display={"flex"} flexDirection={"column"} height='100vh' width='300px' position={"fixed"} top={0} left={0} sx={{ backgroundColor: '  #eadec6' }}>
 
