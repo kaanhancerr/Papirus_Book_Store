@@ -1,5 +1,5 @@
-import { Box, FormControl, InputLabel, OutlinedInput, Typography, Link, Button } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, FormControl, InputLabel, OutlinedInput, Typography, Link, Button, Snackbar, Alert } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Book from '../../assets/books-register.jpg'
 import Papirus from '../../assets/book.png'
 import { Link as RouterLink } from "react-router-dom";
@@ -8,17 +8,45 @@ import { setFormField, resetForm, resetRegisterState, registerUser } from "./reg
 import { useForm, Controller } from 'react-hook-form'
 
 const Register = () => {
-
+    const [openSnackbar, setOpenSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
     const dispatch = useDispatch();
     const form = useSelector(store => store.register.form) // redux storedan form verilerini aliyoruz.
     const { loading, error, success } = useSelector(store => store.register)
     //const loadingOrnek = useSelector(store => store.register.loading) obj dest yaptik.
 
-
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: form //// Redux'tan alınan form verilerini, react-hook-form'un defaultValue olarak geçiriyoruz.
     })
+
+    useEffect(() => {
+        console.log('loading', loading)
+        console.log('error', error)
+        console.log('success', success)
+        // loading == false; yukleme bittiginde yani kayit islemi tamamlandiginda.
+        if (!loading) {
+            // eger kayit islemi bittikten sonra bir hata olmussa.
+            if (error) {
+                const msg = typeof error === 'string' ? error : error.message || 'bir hata olustu.'
+                setSnackbarMessage(msg); // hata mesajini goster
+                setSnackbarSeverity('error')
+                setOpenSnackbar(true); // snackbari goster
+            }
+            // kayit islemi bittikten sonra herhangi bir hata almadan basariyla kayit olusturdugumuzda.
+            else if (success) {
+                setSnackbarMessage('Kayıt başarıyla oluşturuldu.')
+                setSnackbarSeverity('success')
+                setOpenSnackbar(true); // snacbkari goster
+            }
+        }
+    }, [loading, error, success])
+
+    const handleSnackbarClose = () => {
+        setOpenSnackbar(false);
+        dispatch(resetRegisterState());
+    }
 
     useEffect(() => {
         dispatch(resetForm()); //resetForm adındaki reducer fonksiyonunu çalıştır, state’i güncelle.”
@@ -57,7 +85,7 @@ const Register = () => {
                         <Controller
                             name="name"
                             control={control}
-                            rules={{ required: 'ad alani gereklidir' }}
+                            rules={{ required: 'Name alanı zorunludur.' }}
                             render={({ field }) => {
                                 return (
 
@@ -82,7 +110,7 @@ const Register = () => {
                             name="surname"
                             control={control}
                             rules={{
-                                required: 'Soyadı zorunludur',
+                                required: 'Surname alanı zorunludur.',
                             }}
                             render={({ field }) => (
                                 <OutlinedInput
@@ -105,7 +133,7 @@ const Register = () => {
                             name="email"
                             control={control}
                             rules={{
-                                required: 'Email zorunludur',
+                                required: 'Email zorunludur.',
                                 pattern: {
                                     value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
                                     message: 'Gecerli bir email adresi girin'
@@ -129,7 +157,7 @@ const Register = () => {
                             name="username"
                             control={control}
                             rules={{
-                                required: 'username zorunludur'
+                                required: 'Username alanı zorunludur'
                             }}
                             render={({ field }) => (
                                 <OutlinedInput
@@ -152,10 +180,10 @@ const Register = () => {
                             name="password"
                             control={control}
                             rules={{
-                                required: 'Sifre zorunludur',
+                                required: 'Password alanı zorunludur.',
                                 minLength: {
                                     value: 8,
-                                    message: 'Sifre en az 8 karakter olmalidir.'
+                                    message: 'Şifre en az 8 karakter olmalıdır.'
                                 }
                             }}
 
@@ -178,7 +206,7 @@ const Register = () => {
 
                             name="phone"
                             control={control}
-                            rules={{ required: 'Telefon zorunludur' }}
+                            rules={{ required: 'Phone alanı zorunludur.' }}
                             render={({ field }) => (
                                 <OutlinedInput
                                     {...field}
@@ -211,6 +239,11 @@ const Register = () => {
                         Kayıt başarılı!
                     </Typography>
                 )}
+                <Snackbar open={openSnackbar} autoHideDuration={10000} onClose={() => setOpenSnackbar(false)}>
+                    <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+                        {typeof snackbarMessage === 'string' ? snackbarMessage : snackbarMessage.message}
+                    </Alert>
+                </Snackbar>
 
             </Box>
         </Box>
