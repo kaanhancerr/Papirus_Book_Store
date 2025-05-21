@@ -1,17 +1,21 @@
 import { Badge, Box, IconButton, InputAdornment, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { CardActions, fetchCartItems } from "../pages/Card/Store/cardSlice";
+
+const userId = localStorage.getItem('userId');
 
 
 const Topbar = ({ showSearch = false }) => {
-
-    const cartCount = useSelector((store) => store.card.items.length); // sepetteki urun sayisini gostermek icin.
-    console.log('urun sayisi', cartCount)
+    const dispatch = useDispatch();
+    const carts = useSelector((store) => store.card.items); // sepetteki urun sayisini gostermek icin.
+    const fullfilled = useSelector((s) => s.card.fullfilled)
+    console.log({ carts })
 
     const navigate = useNavigate();
 
@@ -25,6 +29,13 @@ const Topbar = ({ showSearch = false }) => {
     const handleNavigateCard = () => {
         navigate('/card');
     }
+
+    useEffect(() => {
+        if (fullfilled === null || fullfilled) {
+            dispatch(fetchCartItems(userId))
+            dispatch(CardActions.setFullfilled(false))
+        }
+    }, [fullfilled])
 
     return (
         <Box display={"flex"} height='100px' ml='300px' sx={{ backgroundColor: 'white' }} alignItems={"center"}>
@@ -63,7 +74,7 @@ const Topbar = ({ showSearch = false }) => {
                     <AccountCircleIcon fontSize="large" />
                 </IconButton>
                 <IconButton onClick={handleNavigateCard} sx={{ color: 'black' }}>
-                    <Badge badgeContent={cartCount} color="error">
+                    <Badge badgeContent={carts?.length} color="error">
                         <ShoppingCartIcon fontSize="large" />
                     </Badge>
                 </IconButton>
