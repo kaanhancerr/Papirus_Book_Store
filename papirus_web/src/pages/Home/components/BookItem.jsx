@@ -7,7 +7,7 @@ const BookItem = () => {
         <Box overflow={"hidden"} display={"flex"} alignItems={"center"} justifyContent='space-between' flexDirection={"column"}
             marginLeft='350px' width='230px' height='350px'
             sx={{
-                backgroundColor: 'white', borderRadius: '20px', boxShadow: 10, transition: 'transform 0.2s ease-in-out',
+                borderRadius: '20px', boxShadow: 10, transition: 'transform 0.2s ease-in-out',
                 '&:hover': {
                     transform: 'scale(1.05)'
                 }
