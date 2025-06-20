@@ -4,6 +4,7 @@ import registerReducer from '../pages/Register/registerSlice'
 import homeReducer from '../pages/Home/Store/homeSlice'
 import cardReducer from '../pages/Card/Store/cardSlice'
 import updateReducer from '../pages/Profile/Store/profileSlice'
+import themeReducer from '../Theme/themeSlice'
 
 export const store = configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
         home: homeReducer,
         card: cardReducer,
         update: updateReducer,
+        theme: themeReducer
     },
 })
